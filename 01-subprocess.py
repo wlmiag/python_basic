@@ -26,6 +26,7 @@ for cmd in cmds:
         print((GREEN + "成功---命令:%s" + END) % cmd)
     else:
         err = subp.stderr.read().decode("utf8").strip()
-        print((RED + "失败---命令:%s" + "\033[0m") % cmd)
-        print("\033[33m" + "错误信息:" + err + "\033[0m")
+        print((RED + "失败---命令:%s" + END) % cmd)
+        print(YELLOW + "错误信息:" + err + END)
         sys.exit(1)
+        
