@@ -23,10 +23,9 @@ for cmd in cmds:
         if line:
             print(line.decode("utf8").strip())
     if subp.returncode == 0:
-        print((GREEN + "成功---命令:%s" + END) % cmd)
+        print(GREEN + "成功---命令: " + cmd + END)
     else:
         err = subp.stderr.read().decode("utf8").strip()
-        print((RED + "失败---命令:%s" + END) % cmd)
-        print(YELLOW + "错误信息:" + err + END)
+        print(RED + "失败---命令: " + cmd + END)
+        print(YELLOW + "错误信息: " + err + END)
         sys.exit(1)
-        
