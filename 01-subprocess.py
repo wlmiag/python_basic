@@ -1,9 +1,15 @@
 import sys
 import subprocess
 
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+END = "\033[0m"
+
 cmds = ["pwd",
         "sleep 1",
         "pwd;sleep 1",
+        "ping www.baidu.com -c 5",
         "pwdddd",
         "pwd"
         ]
@@ -12,23 +18,14 @@ for cmd in cmds:
                             shell=True,
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
-    res = subp.communicate()
+    while subp.poll() is None:
+        line = subp.stdout.readline()
+        if line:
+            print(line.decode("utf8").strip())
     if subp.returncode == 0:
-        print('命令:%s \n成功: %s' % (cmd, res[0].decode('utf8')))
+        print((GREEN + "成功---命令:%s" + END) % cmd)
     else:
-        print('命令:%s \n失败: %s' % (cmd, res[1].decode('utf8')))
+        err = subp.stderr.read().decode("utf8").strip()
+        print((RED + "失败---命令:%s" + "\033[0m") % cmd)
+        print("\033[33m" + "错误信息:" + err + "\033[0m")
         sys.exit(1)
-
-
-# 运行结果：
-
-# 命令:pwd 
-# 成功: /home/keyide/Desktop/python_basic
-# 
-# 命令:sleep 1 
-# 成功: 
-# 命令:pwd;sleep 1 
-# 成功: /home/keyide/Desktop/python_basic
-# 
-# 命令:pwdddd 
-# 失败: /bin/sh: 1: pwdddd: not found
